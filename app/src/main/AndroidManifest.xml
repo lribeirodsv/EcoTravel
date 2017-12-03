@@ -18,7 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserInterface.DisplayListCities"></activity>
+        <activity android:name=".UserInterface.DisplayListCities"
+                  android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity android:name=".UserInterface.DisplayDetaisCity"></activity>
     </application>
 

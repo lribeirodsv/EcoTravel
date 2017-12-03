@@ -3,28 +3,37 @@ package ufu.ecotravel.UserInterface;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import java.util.ArrayList;
 import ufu.ecotravel.Classes.City;
 import ufu.ecotravel.Database.DbHelper;
 import ufu.ecotravel.R;
 
-public class DisplayListCities extends AppCompatActivity {
+public class DisplayListCities extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
+    DisplayListCitiesAdapter adapter;
     Context DisplayListCitiesContext;
     RecyclerView recyclerView;
-    RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<City> arrayList = new ArrayList<>();
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_list_d);
         DisplayListCitiesContext = this;
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         layoutManager = new LinearLayoutManager(this);
@@ -59,5 +68,28 @@ public class DisplayListCities extends AppCompatActivity {
         adapter = new DisplayListCitiesAdapter(arrayList,DisplayListCitiesContext);
         recyclerView.setAdapter(adapter);
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.search,menu);
+        MenuItem menuItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        searchView.setOnQueryTextListener(this);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+
+        adapter.getFilter().filter(query);
+        return true;
     }
 }

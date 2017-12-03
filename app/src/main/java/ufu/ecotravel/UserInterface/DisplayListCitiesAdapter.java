@@ -3,19 +3,16 @@ package ufu.ecotravel.UserInterface;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-
 import ufu.ecotravel.Classes.City;
-import ufu.ecotravel.Classes.Place;
 import ufu.ecotravel.Interfaces.ItemClickListener;
 import ufu.ecotravel.R;
 
@@ -23,15 +20,18 @@ import ufu.ecotravel.R;
  * Created by Lucas on 29/10/2017.
  */
 
-public class DisplayListCitiesAdapter extends RecyclerView.Adapter<RecyclerViewHolder>{
+public class DisplayListCitiesAdapter extends RecyclerView.Adapter<RecyclerViewHolder> implements Filterable {
 
-    private Context DisplayListCitiesAdapterContext;
-    private ArrayList<City> arrayList = new ArrayList<>();
+    Context DisplayListCitiesAdapterContext;
+    ArrayList<City> arrayList,filterList = new ArrayList<>();
+    CustomFilter filter;
     private String estado;
+
 
     public DisplayListCitiesAdapter(ArrayList<City> arrayList, Context ctx){
 
         this.arrayList = arrayList;
+        this.filterList = arrayList;
         this.DisplayListCitiesAdapterContext = ctx;
     }
 
@@ -103,9 +103,23 @@ public class DisplayListCitiesAdapter extends RecyclerView.Adapter<RecyclerViewH
         });
     }
 
+    public int getCount()
+    {
+        return filterList.size();
+    }
+
     @Override
     public int getItemCount() {
         return arrayList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        if(filter == null)
+        {
+            filter = new CustomFilter(filterList,this);
+        }
+        return filter;
     }
 }
 
