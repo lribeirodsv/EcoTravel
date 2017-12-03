@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">EcoTravel</string>
+    <string name="title_destinos">Destinos</string>
+    <string name="title_restaurantes">Restaurantes</string>
+    <string name="title_roteiros">Roteiros</string>
+    <string name="search_hint">Digite para buscar</string>
+</resources>
