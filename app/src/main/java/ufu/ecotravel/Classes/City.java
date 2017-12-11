@@ -15,7 +15,6 @@ public class City {
     private String pais;
     private String url;
     private Integer rating;
-    private ArrayList<String> places;
 
     public City(Integer codigo, String nome, String descricao, String estado, String pais, String url, Integer rating){
 
