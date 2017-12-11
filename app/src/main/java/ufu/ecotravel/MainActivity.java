@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         BackgroundTaskPlace backgroundTaskPlace = new BackgroundTaskPlace(MainActivity.this);
         BackgroundTaskComment backgroundTaskComment = new BackgroundTaskComment(MainActivity.this);
         BackgroundTaskCity backgroundTaskCity = new BackgroundTaskCity(MainActivity.this);
+
         backgroundTaskPlace.execute();
         backgroundTaskComment.execute();
         backgroundTaskCity.execute();

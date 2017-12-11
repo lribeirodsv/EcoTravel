@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="30"
+    tools:context="ufu.ecotravel.UserInterface.DisplayDetaisCity">
+
+    <RelativeLayout
+        android:id="@+id/frameInfos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15">
+
+         <ImageView
+         android:id="@+id/imageCityfrag"
+         android:layout_width="fill_parent"
+         android:layout_height="150dp"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentRight="true"
+         android:scaleType="fitXY"
+         />
+
+        <TextView
+            android:id="@+id/nomeCityfrag"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:gravity="end"
+            android:shadowColor="#000000"
+            android:shadowDx="2.5"
+            android:shadowDy="2.3"
+            android:shadowRadius="1.6"
+            android:text="Local"
+            android:textColor="@android:color/white"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/descCityfrag"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="Descricao"
+            android:layout_below="@+id/imageCityfrag"
+            android:ellipsize="end"
+            android:maxLines="4"
+     />
+
+        <LinearLayout
+         android:layout_width="wrap_content"
+         android:layout_height="25dp"
+         android:weightSum="10"
+         android:orientation="horizontal"
+         android:layout_alignStart="@+id/descCityfrag"
+         android:layout_below="@+id/descCityfrag"
+         android:id="@+id/linearLayout">
+
+            <TextView
+             android:id="@+id/avalCityfrag"
+             android:layout_weight="3"
+             android:layout_width="wrap_content"
+             android:layout_height="match_parent"
+             android:gravity="center"
+             android:text="Avaliação:"
+             android:textSize="18dp"
+             android:textStyle="bold" />
+
+            <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="50dp"
+             android:layout_weight="7"
+             android:orientation="horizontal">
+
+                <RatingBar
+                    android:id="@+id/ratingBarCityfrag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:scaleX=".5"
+                    android:scaleY=".5"
+                    android:stepSize="1.0"
+                    android:theme="@style/RatingBar"
+                    android:transformPivotX="3dp"
+                    android:transformPivotY="3dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalscrollview"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_weight="5">
+
+        <LinearLayout
+            android:id="@+id/framelinearLayout"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:orientation="horizontal"></LinearLayout>
+    </HorizontalScrollView>
+
+    <FrameLayout
+        android:id="@+id/frameplacesrecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="17">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/placesrecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="255dp"></android.support.v7.widget.RecyclerView>
+    </FrameLayout>
+
+</LinearLayout>
+
+
+
+

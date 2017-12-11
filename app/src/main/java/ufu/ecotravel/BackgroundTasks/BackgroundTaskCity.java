@@ -76,7 +76,7 @@ public class BackgroundTaskCity extends AsyncTask <Void, Void, Void>{
                 JSONObject JO = jsonArray.getJSONObject(count);
                 count++;
 
-                //Example [{"id":1,"city":"Uberlandia","state":"MG","country":"Brasil","description":"Cidade de uberlandia","image":"image2.jpg","rating":5,"places":[2]}]
+                //Example{"id":1,"city":"Uberlandia","state":"MG","country":"Brasil","description":"Cidade de uberlandia","image":"image2.jpg","rating":5,"places":[2],"city_images":[]}
 
                 dbHelper.insertCity(
                         JO.getInt("id"),
@@ -86,6 +86,18 @@ public class BackgroundTaskCity extends AsyncTask <Void, Void, Void>{
                         JO.getString("country"),
                         JO.getString("image"),
                         JO.getInt("rating"),
+                        sqLiteDatabase
+                );
+
+                dbHelper.insertCityPlaces(
+                        JO.getInt("id"),
+                        JO.getJSONArray("places"),
+                        sqLiteDatabase
+                );
+
+                dbHelper.insertImageCity(
+                        JO.getInt("id"),
+                        JO.getJSONArray("city_images"),
                         sqLiteDatabase
                 );
             }

@@ -18,7 +18,6 @@ public class ContractCity {
         public static final String PAIS = "DSPAIS";
         public static final String URL = "DSURL";
         public static final String RATING = "NURATG";
-
     }
 }
 

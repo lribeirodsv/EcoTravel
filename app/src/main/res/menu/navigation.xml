@@ -7,9 +7,9 @@
         android:title="@string/title_destinos" />
 
     <item
-        android:id="@+id/navigation_restaurantes"
-        android:icon="@drawable/ic_restaurantes_black_24dp"
-        android:title="@string/title_restaurantes" />
+        android:id="@+id/navigation_clima"
+        android:icon="@drawable/ic_clima_black_24dp"
+        android:title="@string/title_clima" />
 
     <item
         android:id="@+id/navigation_roteiros"

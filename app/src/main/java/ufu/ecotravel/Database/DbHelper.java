@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 /**
  * Created by Lucas on 22/10/2017.
  */
@@ -43,10 +46,23 @@ public class DbHelper extends SQLiteOpenHelper{
                     ContractPlace.PlaceEntry.CODIGO + " integer  PRIMARY KEY," +
                     ContractPlace.PlaceEntry.NOME + " text," +
                     ContractPlace.PlaceEntry.DESCRICAO + " text," +
-                    ContractPlace.PlaceEntry.CIDADE + " text," +
                     ContractPlace.PlaceEntry.LATITUDE + " double," +
                     ContractPlace.PlaceEntry.LONGITUDE + " double," +
                     ContractPlace.PlaceEntry.DATA + " text);";
+
+    public static final String CREATE_TABLE_ASSCITYPLCS =
+            "CREATE TABLE " + ContractCityPlaces.CityPlaceEntry.TABLE_NAME +
+                    "( " +
+                    ContractCityPlaces.CityPlaceEntry.CODIGOCID + " integer NOT NULL," +
+                    ContractCityPlaces.CityPlaceEntry.CODIGOPLC + " integer NOT NULL," +
+                    "PRIMARY KEY ( "+ ContractCityPlaces.CityPlaceEntry.CODIGOCID + " , " + ContractCityPlaces.CityPlaceEntry.CODIGOPLC + " ));";
+
+    public static final String CREATE_TABLE_IMAGES =
+            "CREATE TABLE " + ContractImages.ImagesEntry.TABLE_NAME +
+                    "( " +
+                    ContractImages.ImagesEntry.CODIGOCID + " integer NOT NULL," +
+                    ContractImages.ImagesEntry.CODIGOPLC + " integer NOT NULL," +
+                    ContractImages.ImagesEntry.URL + " text);";
 
     public static final String DROP_TABLE_CITIES =
             "DROP TABLE IF EXISTS " + ContractCity.CityEntry.TABLE_NAME;
@@ -56,6 +72,12 @@ public class DbHelper extends SQLiteOpenHelper{
 
     public static final String DROP_TABLE_PLACES =
             "DROP TABLE IF EXISTS " + ContractPlace.PlaceEntry.TABLE_NAME;
+
+    public static final String DROP_TABLE_ASSCITYPLCS =
+            "DROP TABLE IF EXISTS " + ContractCityPlaces.CityPlaceEntry.TABLE_NAME;
+
+    public static final String DROP_TABLE_IMAGES =
+            "DROP TABLE IF EXISTS " + ContractImages.ImagesEntry.TABLE_NAME;
 
     //endregion
 
@@ -74,12 +96,21 @@ public class DbHelper extends SQLiteOpenHelper{
         Log.d("Database operations","Table comments dropped successfully");
         sqLiteDatabase.execSQL(DROP_TABLE_PLACES);
         Log.d("Database operations","Table places dropped successfully");
+        sqLiteDatabase.execSQL(DROP_TABLE_ASSCITYPLCS);
+        Log.d("Database operations","Table images dropped successfully");
+        sqLiteDatabase.execSQL(DROP_TABLE_IMAGES);
+
+        Log.d("Database operations","Table cititesXplaces dropped successfully");
         sqLiteDatabase.execSQL(CREATE_TABLE_CITIES);
         Log.d("Database operations","Table cities created successfully");
         sqLiteDatabase.execSQL(CREATE_TABLE_COMMENTS);
         Log.d("Database operations","Table comments created successfully");
         sqLiteDatabase.execSQL(CREATE_TABLE_PLACES);
         Log.d("Database operations","Table places created successfully");
+        sqLiteDatabase.execSQL(CREATE_TABLE_ASSCITYPLCS);
+        Log.d("Database operations","Table cititesXplaces created successfully");
+        sqLiteDatabase.execSQL(CREATE_TABLE_IMAGES);
+        Log.d("Database operations","Table images created successfully");
     }
 
     @Override
@@ -91,6 +122,10 @@ public class DbHelper extends SQLiteOpenHelper{
         Log.d("Database operations","Table comments dropped successfully");
         sqLiteDatabase.execSQL(DROP_TABLE_PLACES);
         Log.d("Database operations","Table places dropped successfully");
+        sqLiteDatabase.execSQL(DROP_TABLE_ASSCITYPLCS);
+        Log.d("Database operations","Table cititesXplaces dropped successfully");
+        sqLiteDatabase.execSQL(DROP_TABLE_IMAGES);
+        Log.d("Database operations","Table images dropped successfully");
     }
 
 
@@ -125,20 +160,63 @@ public class DbHelper extends SQLiteOpenHelper{
         Log.d("Database operations","One row inserted in comments table");
     }
 
-    public void insertPlace(Integer codigo, String nome, String descricao, String cidade, double latitude, double longitude, String data, SQLiteDatabase sqLiteDatabase){
+    public void insertPlace(Integer codigo, String nome, String descricao, double latitude, double longitude, String data, SQLiteDatabase sqLiteDatabase){
 
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(ContractPlace.PlaceEntry.CODIGO, codigo);
         contentValues.put(ContractPlace.PlaceEntry.NOME, nome);
         contentValues.put(ContractPlace.PlaceEntry.DESCRICAO, descricao);
-        contentValues.put(ContractPlace.PlaceEntry.CIDADE, cidade);
         contentValues.put(ContractPlace.PlaceEntry.LATITUDE, latitude);
         contentValues.put(ContractPlace.PlaceEntry.LONGITUDE, longitude);
         contentValues.put(ContractPlace.PlaceEntry.DATA, data);
 
         long l = sqLiteDatabase.replace(ContractPlace.PlaceEntry.TABLE_NAME, null,contentValues);
         Log.d("Database operations","One row inserted in places table");
+    }
+
+    public void insertCityPlaces(Integer codigo, JSONArray places, SQLiteDatabase sqLiteDatabase) throws JSONException {
+
+        ContentValues contentValues = new ContentValues();
+
+        for (int i = 0; i < places.length(); i++) {
+
+            contentValues.put(ContractCityPlaces.CityPlaceEntry.CODIGOCID, codigo);
+            contentValues.put(ContractCityPlaces.CityPlaceEntry.CODIGOPLC, places.getInt(i));
+
+            long l = sqLiteDatabase.replace(ContractCityPlaces.CityPlaceEntry.TABLE_NAME, null,contentValues);
+            Log.d("Database operations","One row inserted in citiesXplaces table");
+        }
+    }
+
+    public void insertImageCity(Integer codigo, JSONArray images, SQLiteDatabase sqLiteDatabase) throws JSONException {
+
+        ContentValues contentValues = new ContentValues();
+
+        for (int i = 0; i < images.length(); i++) {
+
+            contentValues.put(ContractImages.ImagesEntry.CODIGOCID, codigo);
+            contentValues.putNull(ContractImages.ImagesEntry.CODIGOPLC);
+            contentValues.put(ContractImages.ImagesEntry.URL, images.getString(i));
+
+            long l = sqLiteDatabase.replace(ContractImages.ImagesEntry.TABLE_NAME, null,contentValues);
+            Log.d("Database operations","One row inserted in images table (city)");
+        }
+    }
+
+    public void insertImagePlace(Integer codigo, JSONArray images, SQLiteDatabase sqLiteDatabase) throws JSONException {
+
+        ContentValues contentValues = new ContentValues();
+
+        for (int i = 0; i < images.length(); i++) {
+
+            contentValues.put(ContractImages.ImagesEntry.CODIGOPLC, codigo);
+            contentValues.putNull(ContractImages.ImagesEntry.CODIGOCID);
+            contentValues.put(ContractImages.ImagesEntry.URL, images.getString(i));
+
+            long l = sqLiteDatabase.replace(ContractImages.ImagesEntry.TABLE_NAME, null,contentValues);
+            Log.d("Database operations","One row inserted in images table (place)");
+        }
     }
 
     //endregion
@@ -154,10 +232,30 @@ public class DbHelper extends SQLiteOpenHelper{
                 ContractCity.CityEntry.ESTADO,
                 ContractCity.CityEntry.PAIS,
                 ContractCity.CityEntry.URL,
-                ContractCity.CityEntry.RATING
+                ContractCity.CityEntry.RATING,
         };
 
         Cursor cursor = sqLiteDatabase.query(ContractCity.CityEntry.TABLE_NAME,projection,null,null,null,null,null);
+
+        return  cursor;
+    }
+
+    public Cursor getCity(SQLiteDatabase sqLiteDatabase, Integer cidade){
+
+        String[] projection = {
+                ContractCity.CityEntry.CODIGO,
+                ContractCity.CityEntry.NOME,
+                ContractCity.CityEntry.DESCRICAO,
+                ContractCity.CityEntry.ESTADO,
+                ContractCity.CityEntry.PAIS,
+                ContractCity.CityEntry.URL,
+                ContractCity.CityEntry.RATING,
+        };
+
+        String whereClause = ContractCity.CityEntry.CODIGO+"=?";
+        String [] whereArgs = {cidade.toString()};
+
+        Cursor cursor = sqLiteDatabase.query(ContractCity.CityEntry.TABLE_NAME,projection,whereClause,whereArgs,null,null,null);
 
         return  cursor;
     }
@@ -176,13 +274,31 @@ public class DbHelper extends SQLiteOpenHelper{
         return  cursor;
     }
 
+    public Cursor getPlaces(SQLiteDatabase sqLiteDatabase, Integer local){
+
+        String[] projection = {
+                ContractPlace.PlaceEntry.CODIGO,
+                ContractPlace.PlaceEntry.NOME,
+                ContractPlace.PlaceEntry.DESCRICAO,
+                ContractPlace.PlaceEntry.LATITUDE,
+                ContractPlace.PlaceEntry.LONGITUDE,
+                ContractPlace.PlaceEntry.DATA
+        };
+
+        String whereClause = ContractPlace.PlaceEntry.CODIGO+"=?";
+        String [] whereArgs = {local.toString()};
+
+        Cursor cursor = sqLiteDatabase.query(ContractPlace.PlaceEntry.TABLE_NAME,projection,whereClause,whereArgs,null,null,null);
+
+        return  cursor;
+    }
+
     public Cursor getPlaces(SQLiteDatabase sqLiteDatabase){
 
         String[] projection = {
                 ContractPlace.PlaceEntry.CODIGO,
                 ContractPlace.PlaceEntry.NOME,
                 ContractPlace.PlaceEntry.DESCRICAO,
-                ContractPlace.PlaceEntry.CIDADE,
                 ContractPlace.PlaceEntry.LATITUDE,
                 ContractPlace.PlaceEntry.LONGITUDE,
                 ContractPlace.PlaceEntry.DATA
@@ -192,6 +308,65 @@ public class DbHelper extends SQLiteOpenHelper{
 
         return  cursor;
     }
+
+    public Cursor getCityPlaces(SQLiteDatabase sqLiteDatabase, Integer cidade){
+
+        String[] projection = {
+                ContractCityPlaces.CityPlaceEntry.CODIGOCID,
+                ContractCityPlaces.CityPlaceEntry.CODIGOPLC
+        };
+
+        String whereClause = ContractCityPlaces.CityPlaceEntry.CODIGOCID+"=?";
+        String [] whereArgs = {cidade.toString()};
+
+        Cursor cursor = sqLiteDatabase.query(ContractCityPlaces.CityPlaceEntry.TABLE_NAME,projection,whereClause,whereArgs,null,null,null);
+
+        return  cursor;
+    }
+
+    public Cursor getCityPlaces(SQLiteDatabase sqLiteDatabase){
+
+        String[] projection = {
+                ContractCityPlaces.CityPlaceEntry.CODIGOCID,
+                ContractCityPlaces.CityPlaceEntry.CODIGOPLC
+        };
+
+        Cursor cursor = sqLiteDatabase.query(ContractCityPlaces.CityPlaceEntry.TABLE_NAME,projection,null,null,null,null,null);
+
+        return  cursor;
+    }
+
+    public Cursor getImagesPlace(SQLiteDatabase sqLiteDatabase, Integer lugar){
+
+        String[] projection = {
+                ContractImages.ImagesEntry.CODIGOPLC,
+                ContractImages.ImagesEntry.URL
+        };
+
+        String whereClause = ContractImages.ImagesEntry.CODIGOPLC+"=?";
+        String [] whereArgs = {lugar.toString()};
+
+        Cursor cursor = sqLiteDatabase.query(ContractImages.ImagesEntry.TABLE_NAME,projection,whereClause,whereArgs,null,null,null);
+
+        return  cursor;
+    }
+
+    public Cursor getImagesCity(SQLiteDatabase sqLiteDatabase, Integer cidade){
+
+        String[] projection = {
+                ContractImages.ImagesEntry.CODIGOCID,
+                ContractImages.ImagesEntry.URL
+        };
+
+        String whereClause = ContractImages.ImagesEntry.CODIGOCID+"=?";
+        String [] whereArgs = {cidade.toString()};
+
+        Cursor cursor = sqLiteDatabase.query(ContractImages.ImagesEntry.TABLE_NAME,projection,whereClause,whereArgs,null,null,null);
+
+        return  cursor;
+    }
+
+
 
     //endregion
 

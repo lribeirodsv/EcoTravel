@@ -9,8 +9,10 @@ import ufu.ecotravel.Classes.City;
  */
 
 public class CustomFilter extends Filter {
+
     DisplayListCitiesAdapter adapter;
     ArrayList<City> filterList;
+
     public CustomFilter(ArrayList<City> filterList,DisplayListCitiesAdapter adapter)
     {
         this.adapter = adapter;
@@ -19,23 +21,24 @@ public class CustomFilter extends Filter {
 
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
-        FilterResults results=new FilterResults();
 
-        if(constraint != null && constraint.length() > 0)
-        {
-            constraint=constraint.toString().toUpperCase();
+        FilterResults results = new FilterResults();
+
+        if(constraint != null && constraint.length() > 0) {
+
+            constraint = constraint.toString().toUpperCase();
             ArrayList<City> filteredCities = new ArrayList<>();
-            for (int i=0;i<filterList.size();i++)
+            for (int i=0 ; i<filterList.size() ; i++)
             {
                 if(filterList.get(i).getNome().toUpperCase().contains(constraint))
                 {
                     filteredCities.add(filterList.get(i));
                 }
             }
-            results.count=filteredCities.size();
-            results.values=filteredCities;
-        } else
-        {
+            results.count = filteredCities.size();
+            results.values = filteredCities;
+        } else {
+
             results.count = filterList.size();
             results.values = filterList;
         }
@@ -43,6 +46,7 @@ public class CustomFilter extends Filter {
     }
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
+
         adapter.arrayList = (ArrayList<City>) results.values;
         adapter.notifyDataSetChanged();
     }

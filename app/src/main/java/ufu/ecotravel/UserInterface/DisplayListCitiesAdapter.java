@@ -20,7 +20,7 @@ import ufu.ecotravel.R;
  * Created by Lucas on 29/10/2017.
  */
 
-public class DisplayListCitiesAdapter extends RecyclerView.Adapter<RecyclerViewHolder> implements Filterable {
+public class DisplayListCitiesAdapter extends RecyclerView.Adapter<RecyclerViewCitiesHolder> implements Filterable {
 
     Context DisplayListCitiesAdapterContext;
     ArrayList<City> arrayList,filterList = new ArrayList<>();
@@ -36,16 +36,16 @@ public class DisplayListCitiesAdapter extends RecyclerView.Adapter<RecyclerViewH
     }
 
     @Override
-    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerViewCitiesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.city_row_layout,parent,false);
 
-        return new RecyclerViewHolder(view);
+        return new RecyclerViewCitiesHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerViewCitiesHolder holder, int position) {
 
         holder.Nome.setText(arrayList.get(position).getNome());
 
@@ -93,8 +93,6 @@ public class DisplayListCitiesAdapter extends RecyclerView.Adapter<RecyclerViewH
                 if(!isLongClick) {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, DisplayDetaisCity.class);
-                    intent.putExtra("Nome", arrayList.get(position).getNome());
-                    intent.putExtra("Descricao", arrayList.get(position).getDescricao());
                     intent.putExtra("Cod_cidade", arrayList.get(position).getCodigo());
                     context.startActivity(intent);
                 }
@@ -123,20 +121,20 @@ public class DisplayListCitiesAdapter extends RecyclerView.Adapter<RecyclerViewH
     }
 }
 
-class RecyclerViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener, View.OnLongClickListener{
+class RecyclerViewCitiesHolder extends RecyclerView.ViewHolder implements  View.OnClickListener, View.OnLongClickListener{
 
     public TextView Nome, Estado;
     public ImageView Fundo;
 
     private ItemClickListener itemClickListener;
 
-    RecyclerViewHolder(View view){
+    RecyclerViewCitiesHolder(View view){
 
         super(view);
 
-        Nome = (TextView)view.findViewById(R.id.nome);
-        Estado = (TextView)view.findViewById(R.id.estado);
-        Fundo = (ImageView)view.findViewById(R.id.fundo);
+        Nome = (TextView)view.findViewById(R.id.nomeCity);
+        Estado = (TextView)view.findViewById(R.id.descEstado);
+        Fundo = (ImageView)view.findViewById(R.id.imageCity);
 
         view.setOnClickListener(this);
         view.setOnLongClickListener(this);

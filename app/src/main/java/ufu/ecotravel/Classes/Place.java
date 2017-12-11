@@ -9,17 +9,15 @@ public class Place {
     private Integer codigo;
     private String nome;
     private String descricao;
-    private String cidade;
     private double latitude;
     private double longitude;
     private String data;
 
-    public Place(Integer codigo, String nome, String descricao, String cidade, double latitude, double longitude, String data){
+    public Place(Integer codigo, String nome, String descricao, double latitude, double longitude, String data){
 
         this.setCodigo(codigo);
         this.setNome(nome);
         this.setDescricao(descricao);
-        this.setCidade(cidade);
         this.setLatitude(latitude);
         this.setLongitude(longitude);
         this.setData(data);
@@ -36,10 +34,6 @@ public class Place {
 
     public String getDescricao() {
         return descricao;
-    }
-
-    public String getCidade() {
-        return cidade;
     }
 
     public double getLatitude() {
@@ -64,10 +58,6 @@ public class Place {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
     }
 
     public void setLatitude(double latitude) {

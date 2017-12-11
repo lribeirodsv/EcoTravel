@@ -14,11 +14,9 @@ public class ContractPlace {
         public static final String CODIGO = "CDPLCE";
         public static final String NOME = "DSNOME";
         public static final String DESCRICAO = "DSPLCE";
-        public static final String CIDADE = "CDCID";
         public static final String LATITUDE = "DSLATT";
         public static final String LONGITUDE = "DSLONG";
         public static final String DATA = "DSDATE";
-        public static final String COMMENT = "CDCOMM";
     }
 }
 
