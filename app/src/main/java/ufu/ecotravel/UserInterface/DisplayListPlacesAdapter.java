@@ -1,8 +1,10 @@
 package ufu.ecotravel.UserInterface;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import ufu.ecotravel.Classes.Place;
+import ufu.ecotravel.Interfaces.ItemClickListener;
 import ufu.ecotravel.R;
 
 /**
@@ -67,7 +70,24 @@ public class DisplayListPlacesAdapter extends RecyclerView.Adapter<RecyclerViewP
                     .into(holder.Imagem);
         }
 
+        holder.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onClick(View view, int position, boolean isLongClick) {
+                if(!isLongClick) {
+                    Context context = view.getContext();
+
+                    Intent intent = new Intent(context, DisplayDetaisCity.class);
+
+                    intent.putExtra("Cod_place", arrayList.get(position).getCodigo());
+                    Log.d("TESTE2","arrayList.get(position).getCodigo()");
+                    context.startActivity(intent);
+                }
+                if(isLongClick) {}
+            }
+        });
+
     }
+
 
     public int getCount()
     {
@@ -81,10 +101,12 @@ public class DisplayListPlacesAdapter extends RecyclerView.Adapter<RecyclerViewP
 
 }
 
-class RecyclerViewPlacesHolder extends RecyclerView.ViewHolder{
+class RecyclerViewPlacesHolder extends RecyclerView.ViewHolder  implements  View.OnClickListener, View.OnLongClickListener{
 
     public TextView Nome, Descricao;
     public ImageView Imagem;
+
+    private ItemClickListener itemClickListener;
 
     RecyclerViewPlacesHolder(View view){
 
@@ -93,6 +115,23 @@ class RecyclerViewPlacesHolder extends RecyclerView.ViewHolder{
         Nome = (TextView)view.findViewById(R.id.nomePlace);
         Descricao = (TextView)view.findViewById(R.id.descPlace);
         Imagem = (ImageView)view.findViewById(R.id.imagePlace);
+
+        view.setOnClickListener(this);
+        view.setOnLongClickListener(this);
     }
 
+    public void setItemClickListener(ItemClickListener itemClickListener){
+        this.itemClickListener = itemClickListener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        itemClickListener.onClick(view,getAdapterPosition(),false);
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        itemClickListener.onClick(view,getAdapterPosition(),true);
+        return false;
+    }
 }

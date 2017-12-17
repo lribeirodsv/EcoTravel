@@ -41,7 +41,6 @@ public class FragmentLocal extends Fragment {
     private RatingBar ratingCidade;
     private ImageView imageCidade;
     private LinearLayout linearLayout;
-    Bitmap bmp;
     private City cidade;
     private RecyclerView.LayoutManager layoutManager;
     private Context LocaisContext = getActivity();
@@ -123,6 +122,7 @@ public class FragmentLocal extends Fragment {
 
         nomeCidade.setText(cidade.getNome());
         descCidade.setText(cidade.getDescricao());
+
 
         Picasso.with(getActivity())
                 .load(cidade.getUrl())

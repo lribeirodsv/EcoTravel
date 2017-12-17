@@ -196,7 +196,7 @@ public class DbHelper extends SQLiteOpenHelper{
         for (int i = 0; i < images.length(); i++) {
 
             contentValues.put(ContractImages.ImagesEntry.CODIGOCID, codigo);
-            contentValues.putNull(ContractImages.ImagesEntry.CODIGOPLC);
+            contentValues.put(ContractImages.ImagesEntry.CODIGOPLC, 0);
             contentValues.put(ContractImages.ImagesEntry.URL, images.getString(i));
 
             long l = sqLiteDatabase.replace(ContractImages.ImagesEntry.TABLE_NAME, null,contentValues);
@@ -211,7 +211,7 @@ public class DbHelper extends SQLiteOpenHelper{
         for (int i = 0; i < images.length(); i++) {
 
             contentValues.put(ContractImages.ImagesEntry.CODIGOPLC, codigo);
-            contentValues.putNull(ContractImages.ImagesEntry.CODIGOCID);
+            contentValues.put(ContractImages.ImagesEntry.CODIGOCID, 0);
             contentValues.put(ContractImages.ImagesEntry.URL, images.getString(i));
 
             long l = sqLiteDatabase.replace(ContractImages.ImagesEntry.TABLE_NAME, null,contentValues);
