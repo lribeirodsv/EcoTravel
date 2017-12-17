@@ -76,10 +76,9 @@ public class DisplayListPlacesAdapter extends RecyclerView.Adapter<RecyclerViewP
                 if(!isLongClick) {
                     Context context = view.getContext();
 
-                    Intent intent = new Intent(context, DisplayDetaisCity.class);
-
+                    Intent intent = new Intent(context, DisplayMap.class);
                     intent.putExtra("Cod_place", arrayList.get(position).getCodigo());
-                    Log.d("TESTE2","arrayList.get(position).getCodigo()");
+                    Log.d("TESTE2",String.valueOf(arrayList.get(position).getCodigo()));
                     context.startActivity(intent);
                 }
                 if(isLongClick) {}

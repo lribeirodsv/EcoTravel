@@ -9,6 +9,7 @@ import android.view.Menu;
 import dmax.dialog.SpotsDialog;
 import ufu.ecotravel.BackgroundTasks.BackgroundTaskCity;
 import ufu.ecotravel.BackgroundTasks.BackgroundTaskComment;
+import ufu.ecotravel.BackgroundTasks.BackgroundTaskImage;
 import ufu.ecotravel.BackgroundTasks.BackgroundTaskPlace;
 import ufu.ecotravel.UserInterface.DisplayListCities;
 
@@ -28,10 +29,12 @@ public class MainActivity extends AppCompatActivity {
         BackgroundTaskPlace backgroundTaskPlace = new BackgroundTaskPlace(MainActivity.this);
         BackgroundTaskComment backgroundTaskComment = new BackgroundTaskComment(MainActivity.this);
         BackgroundTaskCity backgroundTaskCity = new BackgroundTaskCity(MainActivity.this);
+        BackgroundTaskImage backgroundTaskImage = new BackgroundTaskImage(MainActivity.this);
 
         backgroundTaskPlace.execute();
         backgroundTaskComment.execute();
         backgroundTaskCity.execute();
+        backgroundTaskImage.execute();
 
         alertDialog.dismiss();
 

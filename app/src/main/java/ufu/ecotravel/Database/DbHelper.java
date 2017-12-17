@@ -62,7 +62,19 @@ public class DbHelper extends SQLiteOpenHelper{
                     "( " +
                     ContractImages.ImagesEntry.CODIGOCID + " integer NOT NULL," +
                     ContractImages.ImagesEntry.CODIGOPLC + " integer NOT NULL," +
-                    ContractImages.ImagesEntry.URL + " text);";
+                    ContractImages.ImagesEntry.CODIGOURL + " text);";
+
+    public static final String CREATE_TABLE_IMAGESCITY =
+            "CREATE TABLE " + ContractImages.CityImagesEntry.TABLE_NAME +
+                    "( " +
+                    ContractImages.CityImagesEntry.CODIGOURL + " integer PRIMARY KEY," +
+                    ContractImages.CityImagesEntry.URL + " text);";
+
+    public static final String CREATE_TABLE_IMAGESPLACE =
+            "CREATE TABLE " + ContractImages.PlaceImagesEntry.TABLE_NAME +
+                    "( " +
+                    ContractImages.PlaceImagesEntry.CODIGOURL + " integer PRIMARY KEY," +
+                    ContractImages.PlaceImagesEntry.URL + " text);";
 
     public static final String DROP_TABLE_CITIES =
             "DROP TABLE IF EXISTS " + ContractCity.CityEntry.TABLE_NAME;
@@ -79,6 +91,11 @@ public class DbHelper extends SQLiteOpenHelper{
     public static final String DROP_TABLE_IMAGES =
             "DROP TABLE IF EXISTS " + ContractImages.ImagesEntry.TABLE_NAME;
 
+    public static final String DROP_TABLE_IMAGESCITY =
+            "DROP TABLE IF EXISTS " + ContractImages.CityImagesEntry.TABLE_NAME;
+
+    public static final String DROP_TABLE_IMAGESPLACE =
+            "DROP TABLE IF EXISTS " + ContractImages.PlaceImagesEntry.TABLE_NAME;
     //endregion
 
     public DbHelper (Context context)
@@ -97,10 +114,14 @@ public class DbHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL(DROP_TABLE_PLACES);
         Log.d("Database operations","Table places dropped successfully");
         sqLiteDatabase.execSQL(DROP_TABLE_ASSCITYPLCS);
-        Log.d("Database operations","Table images dropped successfully");
-        sqLiteDatabase.execSQL(DROP_TABLE_IMAGES);
-
         Log.d("Database operations","Table cititesXplaces dropped successfully");
+        sqLiteDatabase.execSQL(DROP_TABLE_IMAGES);
+        Log.d("Database operations","Table images dropped successfully");
+        sqLiteDatabase.execSQL(DROP_TABLE_IMAGESCITY);
+        Log.d("Database operations","Table images (city) dropped successfully");
+        sqLiteDatabase.execSQL(DROP_TABLE_IMAGESPLACE);
+        Log.d("Database operations","Table images (place) dropped successfully");
+
         sqLiteDatabase.execSQL(CREATE_TABLE_CITIES);
         Log.d("Database operations","Table cities created successfully");
         sqLiteDatabase.execSQL(CREATE_TABLE_COMMENTS);
@@ -111,6 +132,11 @@ public class DbHelper extends SQLiteOpenHelper{
         Log.d("Database operations","Table cititesXplaces created successfully");
         sqLiteDatabase.execSQL(CREATE_TABLE_IMAGES);
         Log.d("Database operations","Table images created successfully");
+        sqLiteDatabase.execSQL(CREATE_TABLE_IMAGESCITY);
+        Log.d("Database operations","Table images (city) created successfully");
+        sqLiteDatabase.execSQL(CREATE_TABLE_IMAGESPLACE);
+        Log.d("Database operations","Table images (place) created successfully");
+
     }
 
     @Override
@@ -126,6 +152,10 @@ public class DbHelper extends SQLiteOpenHelper{
         Log.d("Database operations","Table cititesXplaces dropped successfully");
         sqLiteDatabase.execSQL(DROP_TABLE_IMAGES);
         Log.d("Database operations","Table images dropped successfully");
+        sqLiteDatabase.execSQL(DROP_TABLE_IMAGESCITY);
+        Log.d("Database operations","Table images (city) dropped successfully");
+        sqLiteDatabase.execSQL(DROP_TABLE_IMAGESPLACE);
+        Log.d("Database operations","Table images (place) dropped successfully");
     }
 
 
@@ -197,7 +227,7 @@ public class DbHelper extends SQLiteOpenHelper{
 
             contentValues.put(ContractImages.ImagesEntry.CODIGOCID, codigo);
             contentValues.put(ContractImages.ImagesEntry.CODIGOPLC, 0);
-            contentValues.put(ContractImages.ImagesEntry.URL, images.getString(i));
+            contentValues.put(ContractImages.ImagesEntry.CODIGOURL, images.getString(i));
 
             long l = sqLiteDatabase.replace(ContractImages.ImagesEntry.TABLE_NAME, null,contentValues);
             Log.d("Database operations","One row inserted in images table (city)");
@@ -212,11 +242,35 @@ public class DbHelper extends SQLiteOpenHelper{
 
             contentValues.put(ContractImages.ImagesEntry.CODIGOPLC, codigo);
             contentValues.put(ContractImages.ImagesEntry.CODIGOCID, 0);
-            contentValues.put(ContractImages.ImagesEntry.URL, images.getString(i));
+            contentValues.put(ContractImages.ImagesEntry.CODIGOURL, images.getString(i));
 
             long l = sqLiteDatabase.replace(ContractImages.ImagesEntry.TABLE_NAME, null,contentValues);
             Log.d("Database operations","One row inserted in images table (place)");
         }
+    }
+
+    public void insertImagesCity(Integer codigo, String url, SQLiteDatabase sqLiteDatabase) throws JSONException {
+
+        ContentValues contentValues = new ContentValues();
+
+            contentValues.put(ContractImages.CityImagesEntry.CODIGOURL, codigo);
+            contentValues.put(ContractImages.CityImagesEntry.URL, url);
+
+            long l = sqLiteDatabase.replace(ContractImages.CityImagesEntry.TABLE_NAME, null,contentValues);
+            Log.d("Database operations","One row inserted in images (city) table (city)");
+
+    }
+
+    public void insertImagesPlace(Integer codigo, String url, SQLiteDatabase sqLiteDatabase) throws JSONException {
+
+        ContentValues contentValues = new ContentValues();
+
+            contentValues.put(ContractImages.PlaceImagesEntry.CODIGOURL, codigo);
+            contentValues.put(ContractImages.PlaceImagesEntry.URL, url);
+
+            long l = sqLiteDatabase.replace(ContractImages.PlaceImagesEntry.TABLE_NAME, null,contentValues);
+            Log.d("Database operations","One row inserted in images (place) table (place)");
+
     }
 
     //endregion
@@ -274,7 +328,7 @@ public class DbHelper extends SQLiteOpenHelper{
         return  cursor;
     }
 
-    public Cursor getPlaces(SQLiteDatabase sqLiteDatabase, Integer local){
+    public Cursor getPlace(SQLiteDatabase sqLiteDatabase, Integer place){
 
         String[] projection = {
                 ContractPlace.PlaceEntry.CODIGO,
@@ -286,7 +340,7 @@ public class DbHelper extends SQLiteOpenHelper{
         };
 
         String whereClause = ContractPlace.PlaceEntry.CODIGO+"=?";
-        String [] whereArgs = {local.toString()};
+        String [] whereArgs = {place.toString()};
 
         Cursor cursor = sqLiteDatabase.query(ContractPlace.PlaceEntry.TABLE_NAME,projection,whereClause,whereArgs,null,null,null);
 
@@ -340,7 +394,7 @@ public class DbHelper extends SQLiteOpenHelper{
 
         String[] projection = {
                 ContractImages.ImagesEntry.CODIGOPLC,
-                ContractImages.ImagesEntry.URL
+                ContractImages.ImagesEntry.CODIGOURL
         };
 
         String whereClause = ContractImages.ImagesEntry.CODIGOPLC+"=?";
@@ -355,7 +409,7 @@ public class DbHelper extends SQLiteOpenHelper{
 
         String[] projection = {
                 ContractImages.ImagesEntry.CODIGOCID,
-                ContractImages.ImagesEntry.URL
+                ContractImages.ImagesEntry.CODIGOURL
         };
 
         String whereClause = ContractImages.ImagesEntry.CODIGOCID+"=?";
@@ -366,6 +420,21 @@ public class DbHelper extends SQLiteOpenHelper{
         return  cursor;
     }
 
+    public Cursor getImageCity(SQLiteDatabase sqLiteDatabase, String codurl) {
+
+        String[] projection = {
+                ContractImages.CityImagesEntry.CODIGOURL,
+                ContractImages.CityImagesEntry.URL
+        };
+
+        String whereClause = ContractImages.CityImagesEntry.CODIGOURL+"=?";
+        String [] whereArgs = {codurl.toString()};
+
+        Cursor cursor = sqLiteDatabase.query(ContractImages.CityImagesEntry.TABLE_NAME,projection,whereClause,whereArgs,null,null,null);
+
+        return  cursor;
+
+    }
 
 
     //endregion

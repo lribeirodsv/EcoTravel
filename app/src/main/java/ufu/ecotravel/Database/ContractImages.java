@@ -13,6 +13,20 @@ public class ContractImages {
         public static final String TABLE_NAME = "TABIMAGES";
         public static final String CODIGOCID = "CDCID";
         public static final String CODIGOPLC = "CDPLCE";
+        public static final String CODIGOURL = "CDURL";
+    }
+
+    public static class CityImagesEntry
+    {
+        public static final String TABLE_NAME = "TABIMAGESCITY";
+        public static final String CODIGOURL = "CDURL";
+        public static final String URL = "DSURL";
+    }
+
+    public static class PlaceImagesEntry
+    {
+        public static final String TABLE_NAME = "TABIMAGESPLACE";
+        public static final String CODIGOURL = "CDURL";
         public static final String URL = "DSURL";
     }
 }

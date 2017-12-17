@@ -44,7 +44,7 @@ public class FragmentLocal extends Fragment {
     private City cidade;
     private RecyclerView.LayoutManager layoutManager;
     private Context LocaisContext = getActivity();
-    private Integer local;
+    private Integer place;
     private ArrayList<Place> destinos = new ArrayList<>();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,9 +77,9 @@ public class FragmentLocal extends Fragment {
             cursorAssCityPlace.moveToFirst();
             do {
 
-                local = cursorAssCityPlace.getInt(1);
+                place = cursorAssCityPlace.getInt(1);
 
-                Cursor cursorloc = dbHelper.getPlaces(sqLiteDatabase, local);
+                Cursor cursorloc = dbHelper.getPlace(sqLiteDatabase, place);
 
                 cursorloc.moveToFirst();
 
@@ -130,29 +130,39 @@ public class FragmentLocal extends Fragment {
                 .error(R.drawable.noimage)
                 .into(imageCidade);
 
-        for (int i = 0; i < 4; i++) {
 
-            ImageView imageView = new ImageView(getActivity());
-            imageView.setId(i);
-            imageView.setPadding(2, 0, 2, 0);
-            imageView.setLayoutParams(new GridView.LayoutParams(210, 210));
-
-            if (i == 0){
-                imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.a));
-            }
-            if (i == 1){
-                imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.b));
-            }
-            if (i == 2){
-                imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.c));
-            }
-            if (i == 3){
-                imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.d));
-            }
+        ImageView imageView = new ImageView(getActivity());
+        imageView.setPadding(2, 0, 2, 0);
+        imageView.setLayoutParams(new GridView.LayoutParams(210, 210));
 
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             linearLayout.addView(imageView);
-        }
+
+            Cursor imagensCidade = dbHelper.getImagesCity(sqLiteDatabase,cidadeSelecionada); //CDCID, CDURL
+            imagensCidade.moveToFirst();
+
+            do {
+
+                imageView.setId(imagensCidade.getInt(0));
+                Cursor imagemCidade = dbHelper.getImageCity(sqLiteDatabase, imagensCidade.getString(1));
+                Log.d("TESTE",imagensCidade.getString(1));
+                imagemCidade.moveToFirst();
+
+                do {
+
+                    Log.d("TESTE",imagemCidade.getString(1));
+
+                    Picasso.with(getActivity())
+                            .load(imagemCidade.getString(1))
+                            .placeholder(R.drawable.noimage)
+                            .error(R.drawable.noimage)
+                            .into(imageView);
+
+                } while (imagemCidade.moveToNext());
+
+            } while (imagensCidade.moveToNext());
+
+
 
         ratingCidade.setNumStars(cidade.getRating());
         Log.d("Rating: ", String.valueOf(cidade.getRating()));
