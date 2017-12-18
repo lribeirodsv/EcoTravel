@@ -66,7 +66,6 @@ public class FragmentLocal extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-
         DbHelper dbHelper = new DbHelper(getActivity());
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
 
@@ -84,6 +83,17 @@ public class FragmentLocal extends Fragment {
                 cursorloc.moveToFirst();
 
                 do {
+/*
+                    Cursor cursorA = dbHelper.getImagesPlace(sqLiteDatabase,cursorloc.getInt(0));
+
+                    cursorA.moveToFirst();
+
+                    String codigoUrl;
+
+                    codigoUrl = cursorA.getString(1);
+
+                    Cursor cursorB = dbHelper.getImagePlace(sqLiteDatabase,codigoUrl);
+*/
 
                     Place place = new Place(
                             cursorloc.getInt(0),
@@ -123,13 +133,11 @@ public class FragmentLocal extends Fragment {
         nomeCidade.setText(cidade.getNome());
         descCidade.setText(cidade.getDescricao());
 
-
         Picasso.with(getActivity())
                 .load(cidade.getUrl())
                 .placeholder(R.drawable.noimage)
                 .error(R.drawable.noimage)
                 .into(imageCidade);
-
 
         ImageView imageView = new ImageView(getActivity());
         imageView.setPadding(2, 0, 2, 0);
@@ -138,19 +146,16 @@ public class FragmentLocal extends Fragment {
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             linearLayout.addView(imageView);
 
-            Cursor imagensCidade = dbHelper.getImagesCity(sqLiteDatabase,cidadeSelecionada); //CDCID, CDURL
+            Cursor imagensCidade = dbHelper.getImagesCity(sqLiteDatabase,cidadeSelecionada);
             imagensCidade.moveToFirst();
 
             do {
 
                 imageView.setId(imagensCidade.getInt(0));
                 Cursor imagemCidade = dbHelper.getImageCity(sqLiteDatabase, imagensCidade.getString(1));
-                Log.d("TESTE",imagensCidade.getString(1));
                 imagemCidade.moveToFirst();
 
                 do {
-
-                    Log.d("TESTE",imagemCidade.getString(1));
 
                     Picasso.with(getActivity())
                             .load(imagemCidade.getString(1))
@@ -162,16 +167,10 @@ public class FragmentLocal extends Fragment {
 
             } while (imagensCidade.moveToNext());
 
-
-
         ratingCidade.setNumStars(cidade.getRating());
         Log.d("Rating: ", String.valueOf(cidade.getRating()));
 
         dbHelper.close();
         return view;
     }
-
-
-
-
 }

@@ -73,7 +73,6 @@ public class DisplayListCities extends AppCompatActivity implements SearchView.O
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 

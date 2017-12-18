@@ -433,7 +433,21 @@ public class DbHelper extends SQLiteOpenHelper{
         Cursor cursor = sqLiteDatabase.query(ContractImages.CityImagesEntry.TABLE_NAME,projection,whereClause,whereArgs,null,null,null);
 
         return  cursor;
+    }
 
+    public Cursor getImagePlace(SQLiteDatabase sqLiteDatabase, String codurl) {
+
+        String[] projection = {
+                ContractImages.PlaceImagesEntry.CODIGOURL,
+                ContractImages.PlaceImagesEntry.URL
+        };
+
+        String whereClause = ContractImages.PlaceImagesEntry.CODIGOURL+"=?";
+        String [] whereArgs = {codurl.toString()};
+
+        Cursor cursor = sqLiteDatabase.query(ContractImages.PlaceImagesEntry.TABLE_NAME,projection,whereClause,whereArgs,null,null,null);
+
+        return  cursor;
     }
 
 
