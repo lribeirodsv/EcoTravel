@@ -45,27 +45,11 @@ public class DisplayListPlacesAdapter extends RecyclerView.Adapter<RecyclerViewP
         holder.Nome.setText(arrayList.get(position).getNome());
         holder.Descricao.setText(arrayList.get(position).getDescricao());
 
-        if (position == 0) {
-            Picasso.with(DisplayListPlacesAdapterContext)
-                    .load(R.mipmap.ce)
-                    .placeholder(R.drawable.noimage)
-                    .error(R.drawable.noimage)
-                    .into(holder.Imagem);
-        }
-        if (position == 1) {
-            Picasso.with(DisplayListPlacesAdapterContext)
-                    .load(R.mipmap.ch)
-                    .placeholder(R.drawable.noimage)
-                    .error(R.drawable.noimage)
-                    .into(holder.Imagem);
-        }
-        if (position == 2) {
-            Picasso.with(DisplayListPlacesAdapterContext)
-                    .load(R.mipmap.cz)
-                    .placeholder(R.drawable.noimage)
-                    .error(R.drawable.noimage)
-                    .into(holder.Imagem);
-        }
+        Picasso.with(DisplayListPlacesAdapterContext)
+                .load(arrayList.get(position).getUrl())
+                .placeholder(R.drawable.noimage)
+                .error(R.drawable.noimage)
+                .into(holder.Imagem);
 
         holder.setItemClickListener(new ItemClickListener() {
             @Override

@@ -1,14 +1,11 @@
 package ufu.ecotravel.BackgroundTasks;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,17 +13,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import dmax.dialog.SpotsDialog;
 import ufu.ecotravel.Database.DbHelper;
+
 
 /**
  * Created by Lucas on 22/10/2017.
  */
 
 public class BackgroundTaskComment extends AsyncTask <Void, Void, Void>{
-
-    AlertDialog alertDialog;
 
     Context BackgroundTaskCommentContext;
 
@@ -38,11 +32,6 @@ public class BackgroundTaskComment extends AsyncTask <Void, Void, Void>{
 
     @Override
     protected void onPreExecute() {
-
-        alertDialog = new SpotsDialog(BackgroundTaskCommentContext);
-        alertDialog.setTitle("Please wait...");
-        alertDialog.setCancelable(false);
-        alertDialog.show();
 
     }
 
@@ -111,6 +100,8 @@ public class BackgroundTaskComment extends AsyncTask <Void, Void, Void>{
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        alertDialog.dismiss();
+
+        BackgroundTaskImage backgroundTaskImage = new BackgroundTaskImage(BackgroundTaskCommentContext);
+        backgroundTaskImage.execute();
     }
 }

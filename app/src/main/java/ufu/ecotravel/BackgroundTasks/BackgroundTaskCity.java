@@ -16,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import dmax.dialog.SpotsDialog;
 import ufu.ecotravel.Database.DbHelper;
+import ufu.ecotravel.MainActivity;
 
 /**
  * Created by Lucas on 22/10/2017.
@@ -34,13 +35,13 @@ public class BackgroundTaskCity extends AsyncTask <Void, Void, Void>{
     }
 
     @Override
-    protected void onPreExecute() {
+    public void onPreExecute() {
 
         alertDialog = new SpotsDialog(BackgroundTaskCityContext);
         alertDialog.setTitle("Please wait...");
         alertDialog.setCancelable(false);
         alertDialog.show();
-
+        alertDialog.setMessage("Carregando dados...");
     }
 
     @Override
@@ -123,6 +124,8 @@ public class BackgroundTaskCity extends AsyncTask <Void, Void, Void>{
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        alertDialog.dismiss();
+
+        BackgroundTaskPlace backgroundTaskPlace = new BackgroundTaskPlace(BackgroundTaskCityContext);
+        backgroundTaskPlace.execute();
     }
 }

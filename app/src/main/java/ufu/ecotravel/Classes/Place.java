@@ -12,8 +12,9 @@ public class Place {
     private double latitude;
     private double longitude;
     private String data;
+    private String url;
 
-    public Place(Integer codigo, String nome, String descricao, double latitude, double longitude, String data){
+    public Place(Integer codigo, String nome, String descricao, double latitude, double longitude, String data, String url){
 
         this.setCodigo(codigo);
         this.setNome(nome);
@@ -21,6 +22,7 @@ public class Place {
         this.setLatitude(latitude);
         this.setLongitude(longitude);
         this.setData(data);
+        this.setUrl(url);
 
     }
 
@@ -48,6 +50,10 @@ public class Place {
         return data;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
     public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
@@ -70,5 +76,9 @@ public class Place {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

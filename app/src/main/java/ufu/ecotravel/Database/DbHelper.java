@@ -48,7 +48,8 @@ public class DbHelper extends SQLiteOpenHelper{
                     ContractPlace.PlaceEntry.DESCRICAO + " text," +
                     ContractPlace.PlaceEntry.LATITUDE + " double," +
                     ContractPlace.PlaceEntry.LONGITUDE + " double," +
-                    ContractPlace.PlaceEntry.DATA + " text);";
+                    ContractPlace.PlaceEntry.DATA + " text," +
+                    ContractPlace.PlaceEntry.URL + " text);";
 
     public static final String CREATE_TABLE_ASSCITYPLCS =
             "CREATE TABLE " + ContractCityPlaces.CityPlaceEntry.TABLE_NAME +
@@ -136,7 +137,6 @@ public class DbHelper extends SQLiteOpenHelper{
         Log.d("Database operations","Table images (city) created successfully");
         sqLiteDatabase.execSQL(CREATE_TABLE_IMAGESPLACE);
         Log.d("Database operations","Table images (place) created successfully");
-
     }
 
     @Override
@@ -336,7 +336,8 @@ public class DbHelper extends SQLiteOpenHelper{
                 ContractPlace.PlaceEntry.DESCRICAO,
                 ContractPlace.PlaceEntry.LATITUDE,
                 ContractPlace.PlaceEntry.LONGITUDE,
-                ContractPlace.PlaceEntry.DATA
+                ContractPlace.PlaceEntry.DATA,
+                ContractPlace.PlaceEntry.URL,
         };
 
         String whereClause = ContractPlace.PlaceEntry.CODIGO+"=?";

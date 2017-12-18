@@ -17,6 +17,7 @@ public class ContractPlace {
         public static final String LATITUDE = "DSLATT";
         public static final String LONGITUDE = "DSLONG";
         public static final String DATA = "DSDATE";
+        public static final String URL = "DSURL";
     }
 }
 

@@ -46,6 +46,7 @@ public class FragmentLocal extends Fragment {
     private Context LocaisContext = getActivity();
     private Integer place;
     private ArrayList<Place> destinos = new ArrayList<>();
+    private String codigoUrl;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -83,17 +84,13 @@ public class FragmentLocal extends Fragment {
                 cursorloc.moveToFirst();
 
                 do {
-/*
-                    Cursor cursorA = dbHelper.getImagesPlace(sqLiteDatabase,cursorloc.getInt(0));
 
-                    cursorA.moveToFirst();
+                    Cursor cursorimages = dbHelper.getImagesPlace(sqLiteDatabase,cursorloc.getInt(0));
+                    cursorimages.moveToFirst();
+                    codigoUrl = cursorimages.getString(1);
 
-                    String codigoUrl;
-
-                    codigoUrl = cursorA.getString(1);
-
-                    Cursor cursorB = dbHelper.getImagePlace(sqLiteDatabase,codigoUrl);
-*/
+                    Cursor cursorimagem = dbHelper.getImagePlace(sqLiteDatabase,codigoUrl);
+                    cursorimagem.moveToFirst();
 
                     Place place = new Place(
                             cursorloc.getInt(0),
@@ -101,7 +98,8 @@ public class FragmentLocal extends Fragment {
                             cursorloc.getString(2),
                             cursorloc.getDouble(3),
                             cursorloc.getDouble(4),
-                            cursorloc.getString(5));
+                            cursorloc.getString(5),
+                            cursorimagem.getString(1));
 
                     destinos.add(place);
 
@@ -139,23 +137,23 @@ public class FragmentLocal extends Fragment {
                 .error(R.drawable.noimage)
                 .into(imageCidade);
 
-        ImageView imageView = new ImageView(getActivity());
-        imageView.setPadding(2, 0, 2, 0);
-        imageView.setLayoutParams(new GridView.LayoutParams(210, 210));
-
-            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            linearLayout.addView(imageView);
-
             Cursor imagensCidade = dbHelper.getImagesCity(sqLiteDatabase,cidadeSelecionada);
             imagensCidade.moveToFirst();
 
             do {
 
-                imageView.setId(imagensCidade.getInt(0));
+                Log.d("CURSOR1", "col0: "+imagensCidade.getInt(0)+" - col1: "+imagensCidade.getString(1));
+
                 Cursor imagemCidade = dbHelper.getImageCity(sqLiteDatabase, imagensCidade.getString(1));
+
                 imagemCidade.moveToFirst();
 
-                do {
+                    Log.d("CURSOR2", "col0: "+imagemCidade.getInt(0)+" - col1: "+imagemCidade.getString(1));
+
+                    ImageView imageView = new ImageView(getActivity());
+                    imageView.setId(imagemCidade.getInt(0));
+                    imageView.setPadding(2, 0, 2, 0);
+                    imageView.setLayoutParams(new GridView.LayoutParams(210, 210));
 
                     Picasso.with(getActivity())
                             .load(imagemCidade.getString(1))
@@ -163,7 +161,8 @@ public class FragmentLocal extends Fragment {
                             .error(R.drawable.noimage)
                             .into(imageView);
 
-                } while (imagemCidade.moveToNext());
+                    imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    linearLayout.addView(imageView);
 
             } while (imagensCidade.moveToNext());
 
