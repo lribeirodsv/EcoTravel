@@ -63,7 +63,8 @@ public class DbHelper extends SQLiteOpenHelper{
                     "( " +
                     ContractImages.ImagesEntry.CODIGOCID + " integer NOT NULL," +
                     ContractImages.ImagesEntry.CODIGOPLC + " integer NOT NULL," +
-                    ContractImages.ImagesEntry.CODIGOURL + " text);";
+                    ContractImages.ImagesEntry.CODIGOURL + " text," +
+                    "PRIMARY KEY ( "+ ContractImages.ImagesEntry.CODIGOCID + " , " + ContractImages.ImagesEntry.CODIGOPLC + " , " + ContractImages.ImagesEntry.CODIGOURL + " ));";
 
     public static final String CREATE_TABLE_IMAGESCITY =
             "CREATE TABLE " + ContractImages.CityImagesEntry.TABLE_NAME +
